@@ -10,20 +10,22 @@
 -export([go/0, loop/0]).
 
 go() ->
-   Pid = spawn(echo, loop, []),
-   Pid ! {self(), hello},
-   receive
-     {Pid, Msg} ->
-       io:format("~w~n",[Msg])
-   end,
-   Pid ! stop.
+  Pid = spawn(echo, loop, []),
+  Pid ! {self(), hello},
+  receive
+    {Pid, Msg} ->
+      io:format("received in main process (~w): ~w~n",[self(), Msg])
+  end,
+  Pid ! stop.
 
 
 loop() ->
-   receive
-     {From, Msg} ->
-        From ! {self(), Msg},
-        loop();
-     stop ->
-       true
-   end.
+  receive
+    {From, Msg} ->
+      io:format("received in loop (~w) from process ~w: ~w~n",[self(), From, Msg]),
+      From ! {self(), Msg},
+      loop();
+    stop ->
+      io:format("received in loop (~w): stop~n",[self()]),
+      true
+  end.
