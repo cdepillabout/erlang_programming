@@ -59,7 +59,7 @@ handle_msg({send_event, Event}, LoopData) ->
 
 handle_msg({swap_handlers, OldHandler, NewHandler}, LoopData) ->
   lists:map(fun ({Handler, HandlerData}) when Handler == OldHandler ->
-                {NewHandler, NewHandler:init(HandlerData)};
+                {NewHandler, NewHandler:init(OldHandler:terminate(HandlerData))};
                 (Other) -> Other
             end,
             LoopData).
