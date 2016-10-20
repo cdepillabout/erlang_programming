@@ -1,9 +1,9 @@
-% Untested
-
 -module(five_3_event_handler).
--export([start/1, stop/0]).
+-export([start/0, start/1, stop/0]).
 -export([add_handler/2, delete_handler/1, get_data/1, send_event/1, swap_handlers/2]).
 -export([init/1]).
+
+start() -> start([]).
 
 start(HandlerList) ->
   register(?MODULE, spawn(?MODULE, init, [HandlerList])), ok.
@@ -58,11 +58,12 @@ handle_msg({send_event, Event}, LoopData) ->
   {ok, event(Event, LoopData)};
 
 handle_msg({swap_handlers, OldHandler, NewHandler}, LoopData) ->
-  lists:map(fun ({Handler, HandlerData}) when Handler == OldHandler ->
-                {NewHandler, NewHandler:init(OldHandler:terminate(HandlerData))};
-                (Other) -> Other
-            end,
-            LoopData).
+  NewLoopData = lists:map(fun ({Handler, HandlerData}) when Handler == OldHandler ->
+                              {NewHandler, NewHandler:init(OldHandler:terminate(HandlerData))};
+                              (Other) -> Other
+                          end,
+                          LoopData),
+  {ok, NewLoopData}.
 
 event(_Event, []) -> [];
 event(Event, [{Handler, Data}|Rest]) ->
