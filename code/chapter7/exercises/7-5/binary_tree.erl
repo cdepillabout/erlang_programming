@@ -36,15 +36,27 @@ min_tree(Tree) ->
             fun(Integer, LeftMax, RightMax) -> min(Integer, min(LeftMax, RightMax)) end,
             Tree).
 
+-spec min3(number(), number(), number()) -> number().
+min3(A, B, C) -> min(A, min(B, C)).
+
+-spec max3(number(), number(), number()) -> number().
+max3(A, B, C) -> max(A, max(B, C)).
+
+-spec is_ordered(tree()) -> {boolean(), integer(), integer()}.
 is_ordered(Tree) ->
-  fold_tree(fun(_) -> {true, -1, 9999} end,
-            fun(Integer, LeftMax, RightMax) -> is_ordered_tree(Integer, LeftMax, RightMax) end,
+  fold_tree(fun(_) ->
+                {true, -1, 9999}
+            end,
+            fun(Integer, LeftMax, RightMin) ->
+                is_ordered_tree(Integer, LeftMax, RightMin)
+            end,
             Tree).
 
+-spec is_ordered_tree(integer(), {boolean(), integer(), integer()}) -> {boolean(), integer(), integer()}.
 is_ordered_tree(_, {false, _, _}, _) ->
-  false;
+  {false, _, _};
 is_ordered_tree(_, _, {false, _, _}) ->
-  false;
+  {false, _, _};
 is_ordered_tree(Integer, {true, LeftMax, _}, {true, _, RightMin}) ->
   (LeftMax =< Integer) and (Integer =< RightMin).
 
