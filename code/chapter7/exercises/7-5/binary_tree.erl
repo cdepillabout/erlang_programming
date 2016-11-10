@@ -1,6 +1,7 @@
 
 -module(binary_tree).
--export ([sum_tree/1]).
+-export ([sum_tree/1, is_ordered/1]).
+-export ([min3/3, max3/3]).
 -export ([test/0]).
 
 -record(tree_node, {val :: integer(),
@@ -45,20 +46,34 @@ max3(A, B, C) -> max(A, max(B, C)).
 -spec is_ordered(tree()) -> {boolean(), integer(), integer()}.
 is_ordered(Tree) ->
   fold_tree(fun(_) ->
-                {true, -1, 9999}
+                {true, none, none}
             end,
-            fun(Integer, LeftMax, RightMin) ->
-                is_ordered_tree(Integer, LeftMax, RightMin)
+            fun(Integer, Left, Right) ->
+                is_ordered_tree(Integer, Left, Right)
             end,
             Tree).
 
--spec is_ordered_tree(integer(), {boolean(), integer(), integer()}) -> {boolean(), integer(), integer()}.
-is_ordered_tree(_, {false, _, _}, _) ->
-  {false, _, _};
-is_ordered_tree(_, _, {false, _, _}) ->
-  {false, _, _};
-is_ordered_tree(Integer, {true, LeftMax, _}, {true, _, RightMin}) ->
-  (LeftMax =< Integer) and (Integer =< RightMin).
+-spec is_ordered_tree(integer(), {boolean(), integer(), integer()}, {boolean(), integer(), integer()}) -> {boolean(), integer(), integer()}.
+is_ordered_tree(_, {false, LeftMin, _}, {_, _, RightMax}) ->
+  {false, LeftMin, RightMax};
+is_ordered_tree(_, {_, LeftMin, _}, {false, _, RightMax}) ->
+  {false, LeftMin, RightMax};
+is_ordered_tree(Integer, {true, LeftMin, LeftMax}, {true, RightMin, RightMax}) ->
+  {test_is_ordered(Integer, LeftMax, RightMin), findMin(Integer, LeftMin), findMax(Integer, RightMax)}.
+
+-spec findMin(integer(), none | integer()) -> integer().
+findMin(Integer, none) -> Integer;
+findMin(_, LeftMin) -> LeftMin.
+
+-spec findMax(integer(), none | integer()) -> integer().
+findMax(Integer, none) -> Integer;
+findMax(_, RightMax) -> RightMax.
+
+-spec test_is_ordered(integer(), none | integer(), none | integer()) -> boolean().
+test_is_ordered(_, none, none) -> true;
+test_is_ordered(Integer, LeftMax, none) -> LeftMax =< Integer;
+test_is_ordered(Integer, none, RightMin) -> Integer =< RightMin;
+test_is_ordered(Integer, LeftMax, RightMin) -> (LeftMax =< Integer) and (Integer =< RightMin).
 
 -define(DEBUG_EXPR(Expr), io:format("~p = ~p~n", [??Expr, Expr])).
 
@@ -67,6 +82,8 @@ test() ->
   Tree2 = #tree_node{val = 2, left_tree = leaf, right_tree = leaf},
   Tree3 = #tree_node{val = 10, left_tree = Tree2, right_tree = leaf},
   Tree4 = #tree_node{val = 20, left_tree = Tree3, right_tree = Tree1},
+  Tree5 = #tree_node{val = 4000, left_tree = leaf, right_tree = leaf},
+  Tree6 = #tree_node{val = 20, left_tree = Tree3, right_tree = Tree5},
   ?DEBUG_EXPR(sum_tree(leaf)),
   ?DEBUG_EXPR(sum_tree(Tree4)),
   ?DEBUG_EXPR(max_tree(leaf)),
@@ -74,4 +91,11 @@ test() ->
   ?DEBUG_EXPR(max_tree(Tree4)),
   ?DEBUG_EXPR(min_tree(leaf)),
   ?DEBUG_EXPR(min_tree(Tree3)),
-  ?DEBUG_EXPR(min_tree(Tree4)).
+  ?DEBUG_EXPR(min_tree(Tree4)),
+  ?DEBUG_EXPR(is_ordered(leaf)),
+  ?DEBUG_EXPR(is_ordered(Tree1)),
+  ?DEBUG_EXPR(is_ordered(Tree3)),
+  ?DEBUG_EXPR(is_ordered(Tree4)),
+  ?DEBUG_EXPR(is_ordered(Tree6)),
+  io:format("end~n").
+
