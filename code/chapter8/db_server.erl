@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -13,23 +13,23 @@
 -vsn(1.0).
 
 start() ->
-  register(db_server, spawn(db_server, init, [])).
+  register(?MODULE, spawn(?MODULE, init, [])).
 
 stop()->
-  db_server ! stop.
+  ?MODULE ! stop.
 
 upgrade(Data) ->
-  db_server ! {upgrade, Data}.
+  ?MODULE ! {upgrade, Data}.
 
 write(Key, Data) ->
-  db_server ! {write, Key, Data}.
+  ?MODULE ! {write, Key, Data}.
 
 read(Key) ->
-  db_server ! {read, self(), Key},
+  ?MODULE ! {read, self(), Key},
   receive Reply -> Reply end.
 
 delete(Key) ->
-  db_server ! {delete, Key}.
+  ?MODULE ! {delete, Key}.
 
 init() ->
   loop(db:new()).
@@ -45,7 +45,7 @@ loop(Db) ->
        loop(db:delete(Key, Db));
     {upgrade, Data} ->
       NewDb = db:convert(Data, Db),
-      db_server:loop(NewDb);
+      ?MODULE:loop(NewDb);
     stop ->
       db:destroy(Db)
   end. 
