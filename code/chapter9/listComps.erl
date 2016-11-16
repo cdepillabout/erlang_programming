@@ -19,7 +19,11 @@ fromTo(N,M) ->
 splits([]) ->
     [{[],[]}];
 splits([X|Xs] = Ys) ->
-    [ {[],Ys} | [ { [X|As] , Bs} || {As,Bs} <- splits(Xs) ] ].
+    [ {[],Ys}
+    | [ { [X|As] , Bs}
+      || {As,Bs} <- splits(Xs)
+      ]
+    ].
 
 perms([]) ->
     [[]];

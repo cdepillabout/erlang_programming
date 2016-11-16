@@ -9,7 +9,7 @@
 -module(hof1).
 
 -export([double/1,double2/1,double3/1,rev/1,map/2,reverse/1,evens/1,palins/1,filter/2,
-         addTwo/0,showList/1,doAll/2,times/1,sendTo/1,palin/1]).
+         addTwo/0,showList/1,doAll/2,times/1,sendTo/1,palin/1,myHead/0]).
 
 double([]) ->
       [];
