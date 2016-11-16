@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -26,8 +26,8 @@ start_children([{M, F, A} | ChildSpecList]) ->
       start_children(ChildSpecList)
   end.
 
-%% The loop of the supervisor waits in a receive clause for EXIT and stop messages. 
-%% If a child terminates, the supervisor receives the EXIT signal and restarts the terminated 
+%% The loop of the supervisor waits in a receive clause for EXIT and stop messages.
+%% If a child terminates, the supervisor receives the EXIT signal and restarts the terminated
 %% child, replacing its entry in the list of children stored in the ChildList variable:
 
 restart_child(Pid, ChildList) ->
@@ -44,9 +44,9 @@ loop(ChildList) ->
       From ! {reply, terminate(ChildList)}
   end.
 
-%% We stop the supervisor by calling the synchronous client function stop/0. Upon receiving the 
+%% We stop the supervisor by calling the synchronous client function stop/0. Upon receiving the
 %% stop message, the supervisor runs through the ChildList, terminating the children one by one.
-%% Having terminated all the children, the atom ok is returned to the process that initiated 
+%% Having terminated all the children, the atom ok is returned to the process that initiated
 %% the stop call:
 
 stop(Name) ->

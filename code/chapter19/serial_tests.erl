@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -10,7 +10,7 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
--import(serial, 
+-import(serial,
 	 [treeToList/1,
          tree0/0,tree1/0,
          listToTree/1]).
@@ -29,7 +29,7 @@ node_test() ->
 
 node_value_test() ->
      ?assertEqual([11,8,2,cat,5,2,dog,2,emu,2,fish] , treeToList(tree1())).
-    
+
 node_negative_test() ->
      ?assertError(badarg, listToTree([8,6,2,cat,2,dog,emu,fish])).
 

@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -11,7 +11,7 @@
 
 fromTo(N,N) ->
     [N];
-fromTo(N,M) when M<N -> 
+fromTo(N,M) when M<N ->
     [];
 fromTo(N,M) ->
     [N|fromTo(N+1,M)].

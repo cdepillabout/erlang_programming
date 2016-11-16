@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -19,8 +19,8 @@ treeToList({node,T1,T2}) ->
     [Size2|List2] = TTL2,
     [Size1+Size2|TTL1++List2].
 
-% all that is needed to decode deterministically is the size of the left 
-% subtree. That's therefore what is coded by the head. In fact, the head is 
+% all that is needed to decode deterministically is the size of the left
+% subtree. That's therefore what is coded by the head. In fact, the head is
 % the size of the whole tree, so that's why in the decoding phase we ditch the
 % first datum as it is of no value.
 

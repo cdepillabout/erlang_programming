@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -58,14 +58,14 @@ setup(WX,Frame) ->
      wxFrame:connect(Frame, close_window).
 
 %% Main processing loop: will process menu selection of "about"
-%% and "exit" menu items. 
+%% and "exit" menu items.
 
 loop(Frame) ->
      receive
  	#wx{id=?ABOUT, event=#wxCommand{}} ->
  	    Str = "MicroBlog is a minimal WxErlang example.",
  	    MD = wxMessageDialog:new(Frame,Str,
- 				     [{style, ?wxOK bor ?wxICON_INFORMATION}, 
+ 				     [{style, ?wxOK bor ?wxICON_INFORMATION},
  				      {caption, "About MicroBlog"}]),
  	    wxDialog:showModal(MD),
  	    wxDialog:destroy(MD),
@@ -74,7 +74,7 @@ loop(Frame) ->
   	#wx{id=?EXIT, event=#wxCommand{type=command_menu_selected}} ->
   	    wxWindow:close(Frame,[])
     end.
- 
-   
-    
-    
+
+
+
+

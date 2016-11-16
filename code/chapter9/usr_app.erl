@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -10,7 +10,7 @@
 -behaviour(application).
 -export([start/2, stop/1]).
 
-start(_Type, StartArgs) -> 
+start(_Type, StartArgs) ->
     usr_sup:start_link().
 stop(_State) ->
     ok.

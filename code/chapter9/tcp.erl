@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -10,7 +10,7 @@
 -export([decode/1,seg1/0,seg2/0]).
 
 decode(Segment) ->
-    case Segment of 
+    case Segment of
 	<< SourcePort:16, DestinationPort:16,
 	   SequenceNumber:32,
 	   AckNumber:32,
@@ -22,7 +22,7 @@ decode(Segment) ->
 	    << Options:OptSize, Message/binary >> = Payload,
 	    <<CWR:1, ECE:1, URG:1, ACK:1, PSH:1, RST:1, SYN:1, FIN:1>> = <<Flags:8>>,
  	    %% Can now process the Message according to the
-	    %% Options (if any) and the flags CWR, ..., FIN. 
+	    %% Options (if any) and the flags CWR, ..., FIN.
 	    binary_to_list(Message)
     end.
 

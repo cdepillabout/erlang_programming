@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -16,10 +16,10 @@
 % Note how the "\" in the regexp string have themselves
 % to be quoted.
 
-% Variant of text.erl, replacing list construction with 
+% Variant of text.erl, replacing list construction with
 % side-effects on an ETS.
 
-% It's aparent from this that keys can be anything, and not just 
+% It's aparent from this that keys can be anything, and not just
 % atoms. Also worth noting that any any position can be the key position.
 % Pass this in as information when the ETS table is created.
 
@@ -29,8 +29,8 @@
 
 % Shows the difference between set, bag, dupicate_bag with the
 % example file Text.txt. The size is
-% set               
-					 
+% set
+
 
 processFile(File,Table) ->
     {ok,IoDevice} = file:open(File,[read]),
@@ -40,7 +40,7 @@ processLines(IoDevice,Table,N) ->
     case io:get_line(IoDevice,"") of
 	eof ->
 	    ok;
-	Line -> 
+	Line ->
 	    processLine(Line,Table,N),
 	    processLines(IoDevice,Table,N+1)
     end.
@@ -87,7 +87,7 @@ showIndexNext(TabId,Entry) ->
 	    showIndexNext(TabId,Next)
     end.
 
-showEntry(TabId,Entry) ->    
+showEntry(TabId,Entry) ->
     io:format("~p ~n",[ets:lookup(TabId,Entry)]).
 
 prettyIndex(TabId) ->
@@ -96,7 +96,7 @@ prettyIndex(TabId) ->
 	    ok;
 	First  ->
 	    case First of
-		{Word, N} -> 
+		{Word, N} ->
 		    IndexEntry = {Word, [N]}
 	    end,
 	    prettyIndexNext(TabId,First,IndexEntry)
@@ -108,7 +108,7 @@ prettyIndexNext(TabId,Entry,{Word, Lines}=IndexEntry) ->
 	'$end_of_table' ->
 	    prettyEntry(IndexEntry);
 	{NextWord, M}  ->
-	    if 
+	    if
 		NextWord == Word ->
 		    prettyIndexNext(TabId,Next,{Word, [M|Lines]});
 		true ->
@@ -117,13 +117,13 @@ prettyIndexNext(TabId,Entry,{Word, Lines}=IndexEntry) ->
 	    end
     end.
 
-prettyEntry({Word, Lines}) ->    
+prettyEntry({Word, Lines}) ->
     io:put_chars(pad(15,Word)),
     prettyList(accumulate(Lines)).
 
 pad(N,Word) ->
     Len = length(Word),
-    if 
+    if
 	Len>=N ->
 	    Word;
 	true ->
@@ -171,7 +171,7 @@ accumulate([N|Ns],[{P,Q}|Rest]=Ms) ->
 	    accumulate(Ns,[{N,Q}|Rest]);
 	true ->
 	    accumulate(Ns,[{N}|Ms])
-    end.    
+    end.
 
 
 % test code
@@ -187,16 +187,16 @@ test1() ->
     io:format("And the next but one is: ~p~n",[NextBut1]),
     ets:tab2list(TabId),
     ets:info(TabId).
-    
+
 test2() ->
     index("Short.txt").
 
 test3() ->
     TabId = ets:new(myTable, [ordered_set]),
     processFile("Short.txt",TabId),
-    prettyIndex(TabId).    
-    
+    prettyIndex(TabId).
 
 
 
-    
+
+

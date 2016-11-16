@@ -48,6 +48,6 @@ loop(Db) ->
       ?MODULE:loop(NewDb);
     stop ->
       db:destroy(Db)
-  end. 
+  end.
 
 

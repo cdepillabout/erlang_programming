@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -25,14 +25,14 @@ return_error(X) when X > 0->
                        {shell,eval_exprs,6},
                        {shell,eval_loop,3}]}}.
 
-try_return(X) when is_integer(X) -> 
-  try return_error(X) of 
-    Val -> {normal, Val} 
-  catch 
-    exit:Reason -> {exit, Reason}; 
-    throw:Throw -> {throw, Throw}; 
-    error:Error -> {error, Error} 
-  end. 
+try_return(X) when is_integer(X) ->
+  try return_error(X) of
+    Val -> {normal, Val}
+  catch
+    exit:Reason -> {exit, Reason};
+    throw:Throw -> {throw, Throw};
+    error:Error -> {error, Error}
+  end.
 
 try_wildcard(X) when is_integer(X) ->
   try return_error(X)

@@ -18,11 +18,11 @@
 -include("usr.hrl").
 -include_lib("eunit/include/eunit.hrl").
 
-%% @doc Create the ETS and DETS tables which implement the database. The  
-%% argument gives the filename which is used to hold the DETS table. 
+%% @doc Create the ETS and DETS tables which implement the database. The
+%% argument gives the filename which is used to hold the DETS table.
 %% If the table can be created, an `ok' tuple containing a
-%% reference to the created table is returned; if not, it returns an `error' 
-%% tuple with a string describing the error. 
+%% reference to the created table is returned; if not, it returns an `error'
+%% tuple with a string describing the error.
 
 %% @spec create_tables(string()) -> {ok, reference()} | {error, string()}
 
@@ -33,7 +33,7 @@ create_tables(FileName) ->
     ets:new(subIndex, [named_table]),
     dets:open_file(subDisk, [{file, FileName}, {keypos, #usr.msisdn}]).
 
-%% @doc Close the ETS and DETS tables implementing the database. 
+%% @doc Close the ETS and DETS tables implementing the database.
 %% Returns either `ok' or and `error'
 %% tuple with the reason for the failure to close the DETS table.
 
@@ -57,7 +57,7 @@ add_usr(#usr{msisdn=PhoneNo, id=CustId} = Usr) ->
     update_usr(Usr).
 
 %% @doc Updates the ram and disk tables with a `Usr'.
- 
+
 %% @spec update_usr(#usr{}) -> ok
 
 -spec(update_usr(#usr{}) -> ok).
@@ -65,10 +65,10 @@ add_usr(#usr{msisdn=PhoneNo, id=CustId} = Usr) ->
 update_usr(Usr) ->
     ets:insert(subRam, Usr),
     dets:insert(subDisk, Usr),
-    ok.    
+    ok.
 
 %% @doc Delete a user, specified by their customer id. Returns
-%% either `ok' or an `error' tuple with a reason, if either the 
+%% either `ok' or an `error' tuple with a reason, if either the
 %% lookup of the id fails, or the delete of the tuple.
 
 %% @spec delete_usr(integer()) -> ok|{error,string()}
@@ -187,7 +187,7 @@ restore_backup() ->
 
 testFun() ->
      eunit:test(
-      {spawn, 
+      {spawn,
       {setup,
        fun ()  -> create_tables("UsrTabFile") end,                % setup
        fun (_) -> ?cmd("rm UsrTabFile") end,                      % cleanup
@@ -195,38 +195,38 @@ testFun() ->
 
 testFun2() ->
      eunit:test(
-      {spawn, 
+      {spawn,
       {setup,
        fun ()  -> create_tables("UsrTabFile"),
 		  Seq = lists:seq(1,100000),
-		  Add = fun(Id) -> add_usr(#usr{msisdn = 700000000 + Id, 
-                                        id = Id, 
-                                        plan = prepay, 
-                                        services = [data, sms, lbs]}) 
+		  Add = fun(Id) -> add_usr(#usr{msisdn = 700000000 + Id,
+                                        id = Id,
+                                        plan = prepay,
+                                        services = [data, sms, lbs]})
 			end,
 		  lists:foreach(Add, Seq)
        end,
-       fun (_) -> ?cmd("rm UsrTabFile") end, 
+       fun (_) -> ?cmd("rm UsrTabFile") end,
        ?_assertMatch({ok, #usr{status = enabled}} , lookup_msisdn(700000001) ) }}).
 
 testFun3() ->
      eunit:test(
-      {spawn, 
+      {spawn,
       {setup,
        fun ()  -> create_tables("UsrTabFile"),
 		  Seq = lists:seq(1,100000),
-		  Add = fun(Id) -> add_usr(#usr{msisdn = 700000000 + Id, 
-                                        id = Id, 
-                                        plan = prepay, 
-                                        services = [data, sms, lbs]}) 
+		  Add = fun(Id) -> add_usr(#usr{msisdn = 700000000 + Id,
+                                        id = Id,
+                                        plan = prepay,
+                                        services = [data, sms, lbs]})
 			end,
 		  lists:foreach(Add, Seq),
 		  {ok, UsrRec} = usr_db:lookup_msisdn(700000001),
 		  update_usr(UsrRec#usr{services = [data, sms], status = disabled})
        end,
-       fun (_) -> ?cmd("rm UsrTabFile") end, 
+       fun (_) -> ?cmd("rm UsrTabFile") end,
        ?_assertMatch({ok, #usr{status = disabled}} , lookup_msisdn(700000001) ) }}).
-       
+
 
 
 

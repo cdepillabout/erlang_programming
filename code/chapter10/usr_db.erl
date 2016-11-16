@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -42,7 +42,7 @@ lookup_id(CustId) ->
 %% NB this code omitted from the description in Chapter 10.
 
 %% Delete a user, specified by their customer id. Returns
-%% either `ok' or an `error' tuple with a reason, if either the 
+%% either `ok' or an `error' tuple with a reason, if either the
 %% lookup of the id fails, or the delete of the tuple.
 
 

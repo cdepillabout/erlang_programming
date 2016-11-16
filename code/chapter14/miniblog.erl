@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -31,7 +31,7 @@
 
 
 %% Top-level function: create the wx-server, the graphical objects
-%% (both frame and text area), show the application, process and 
+%% (both frame and text area), show the application, process and
 %% clean up on termination.
 
 start() ->
@@ -61,7 +61,7 @@ setup(WX,Frame,Text) ->
      wxMenu:append(File,?EXIT,"Quit"),
      wxMenu:append(File,?NEW,"New\tCtrl-N"),
      wxMenu:append(File,?OPEN,"Open saved\tCtrl-O"),
-     wxMenu:appendSeparator(File),    
+     wxMenu:appendSeparator(File),
      wxMenu:append(File,?SAVE,"Save\tCtrl-S"),
 
      wxMenu:append(Edit,?APPEND,"Add en&try\tCtrl-T"),
@@ -81,9 +81,9 @@ setup(WX,Frame,Text) ->
      wxFrame:connect(Frame, close_window).
 
 %% Main processing loop: will process menu selection of the following
-%% "about"  display about dialogue 
+%% "about"  display about dialogue
 %% "exit"   exit the appliction
-%% "append" append an item to the blog window 
+%% "append" append an item to the blog window
 %% "undo"   undo item addition (recursively)
 %% "open"   open the saved BLOG file, losing existing file
 %% "save"   save the current file as BLOG
@@ -94,7 +94,7 @@ loop(Frame,Text) ->
  	#wx{id=?ABOUT, event=#wxCommand{}} ->
  	    Str = "MiniBlog is a minimal WxErlang example.",
  	    MD = wxMessageDialog:new(Frame,Str,
- 				     [{style, ?wxOK bor ?wxICON_INFORMATION}, 
+ 				     [{style, ?wxOK bor ?wxICON_INFORMATION},
  				      {caption, "About MiniBlog"}]),
  	    wxDialog:showModal(MD),
  	    wxDialog:destroy(MD),
@@ -107,8 +107,8 @@ loop(Frame,Text) ->
  	    Prompt = "Please enter text here.",
  	    MD = wxTextEntryDialog:new(Frame,Prompt,
  				     [{caption, "New blog entry"}]),
-  	    case wxTextEntryDialog:showModal(MD) of 
-  		?wxID_OK -> 
+  	    case wxTextEntryDialog:showModal(MD) of
+  		?wxID_OK ->
   		    Str = wxTextEntryDialog:getValue(MD),
   		    wxTextCtrl:appendText(Text,[10]++dateNow()++Str);
  		_ -> ok
@@ -136,8 +136,8 @@ loop(Frame,Text) ->
 	     loop(Frame,Text)
 
     end.
- 
-lastLineRange(Text) ->   
+
+lastLineRange(Text) ->
 	    NLines = wxTextCtrl:getNumberOfLines(Text),
 %	    io:format("Number of lines ~p~n",[NLines]),
 	    LineLen =  wxTextCtrl:getLineLength(Text,NLines-1),
@@ -147,13 +147,13 @@ lastLineRange(Text) ->
 	    EndPos = wxTextCtrl:xYToPosition(Text,LineLen-1,NLines-1),
 %	    io:format("End position is ~p ~n",[EndPos]),
             {StartPos,EndPos}.
-    
+
 dateNow() ->
     {_,M,D}=erlang:date(),
     Mon = httpd_util:month(M),
     Day = integer_to_list(D),
     string:left(Mon++" "++Day++" ",8,$ ).
 
-    
-    
-    
+
+
+

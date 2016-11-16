@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -16,7 +16,7 @@
 birthday({N,A,T}) ->
     {N,A+1,T}.
 
-joe() ->    
+joe() ->
      {"Joe", 21, "999-999"}.
 
 showPerson({N,A,T}) ->

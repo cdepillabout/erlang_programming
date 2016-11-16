@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -57,7 +57,7 @@ listlen2(Y) ->
     [_|Xs] -> 1 + listlen2(Xs)
   end.
 
-% Indexing into a list, i.e. looking for the nth element of a  
+% Indexing into a list, i.e. looking for the nth element of a
 % list (with numbering from zero).
 
 index(0,[X|_])           -> X;
@@ -99,12 +99,12 @@ g([])     -> 0.
 % Binding a variable in both arms of a case expression is
 % possible ...
 
-safe(X) ->                
-  case X of                  
-    one -> Y = 12;               
-    _   -> Y = 196               
-  end,                         
-  X+Y.                        
+safe(X) ->
+  case X of
+    one -> Y = 12;
+    _   -> Y = 196
+  end,
+  X+Y.
 
 % ... but the preferred style is to assign a value to the variable.
 % where the value is defined using a case
@@ -113,10 +113,10 @@ preferred(X) ->
   Y = case X of
         one -> 12;
         _   -> 196
-      end,       
-  X+Y.           
+      end,
+  X+Y.
 
-%% Guards 
+%% Guards
 
 % Defining factorial using a guard
 
@@ -167,7 +167,7 @@ member(_, [])      -> false;
 member(H, [H | _]) -> true;
 member(H, [_ | T]) -> member(H, T).
 
-% Summing a list using tail recursion. 
+% Summing a list using tail recursion.
 
 sum_acc([],Sum) -> Sum;
 sum_acc([Head|Tail], Sum) -> sum_acc(Tail, Head+Sum).
@@ -237,20 +237,20 @@ test2(N) ->
     N > 0 -> true
   end.
 
-% 
+%
 
 %% Handling Errors
 
 % Examples showing different kinds of error behaviour.
 
-try_return(X) when is_integer(X) -> 
-  try return_error(X) of 
-    Val -> {normal, Val} 
-  catch 
-    exit:Reason -> {exit, Reason}; 
-    throw:Throw -> {throw, Throw}; 
-    error:Error -> {error, Error} 
-  end. 
+try_return(X) when is_integer(X) ->
+  try return_error(X) of
+    Val -> {normal, Val}
+  catch
+    exit:Reason -> {exit, Reason};
+    throw:Throw -> {throw, Throw};
+    error:Error -> {error, Error}
+  end.
 
 try_wildcard(X) when is_integer(X) ->
   try return_error(X)

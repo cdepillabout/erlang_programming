@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -8,7 +8,7 @@
 
 -module(index).
 
--export([index/1,processFile/1,prettyEntry/1]). 
+-export([index/1,processFile/1,prettyEntry/1]).
 
 index(File) ->
   ets:new(indexTable, [ordered_set, named_table]),
@@ -27,7 +27,7 @@ processLines(IoDevice,N) ->
       processLine(Line,N),
       processLines(IoDevice,N+1)
   end.
-					 
+
 -define(Punctuation,"(\\ |\\,|\\.|\\;|\\:|\\t|\\n|\\(|\\))+").
 
 processLine(Line,N) ->
@@ -81,9 +81,9 @@ prettyIndexNext(Entry,{Word, Lines}=IndexEntry) ->
 prettyEntry(IndexEntry) ->
     % exercise
     ok.
-    
 
 
 
 
-    
+
+

@@ -1,11 +1,11 @@
 %% @author Francseco Cesarini <francesco@erlang-consulting.com>
 %% @author Simon Thompson <s.j.thompson@kent.ac.uk>
-%% @doc  API and server code for the  mobile subscriber database. The functions exported 
+%% @doc  API and server code for the  mobile subscriber database. The functions exported
 %% by the module fall into three classes:
 %% === System start and stop ===
-%% {@link start/0. `start/0'}, 
-%% {@link start/1. `start/1'}, 
-%% {@link stop/0. `stop/0'} 
+%% {@link start/0. `start/0'},
+%% {@link start/1. `start/1'},
+%% {@link stop/0. `stop/0'}
 %% === Customer Service API ===
 %% {@link add_usr/3. `add_usr/3'},
 %% {@link delete_usr/1. `delete_usr/1'},
@@ -33,7 +33,7 @@
 
 -module(usr).
 -export([start/0, start/1, stop/0, init/2]).
--export([add_usr/3, delete_usr/1, set_service/3, set_status/2, 
+-export([add_usr/3, delete_usr/1, set_service/3, set_status/2,
 	 delete_disabled/0, lookup_id/1]).
 -export([lookup_msisdn/1, service_flag/2]).
 
@@ -99,7 +99,7 @@ add_usr(PhoneNum, CustId, Plan) ->
 
 %% @doc Delete a user and all their associated entries.
 
-delete_usr(CustId) ->    
+delete_usr(CustId) ->
     call({delete_usr, CustId}).
 
 %% @doc Set or unset a particular service for a particular customer. A `true' Flag
@@ -116,12 +116,12 @@ set_service(CustId, Service, Flag) ->
 
 %% @spec set_status(integer(), status()) -> ok | {error, instTime()}
 
--spec(set_status(integer(), status()) -> ok | {error, instTime()}).  
+-spec(set_status(integer(), status()) -> ok | {error, instTime()}).
 
 set_status(CustId, Status) ->
     call({set_status, CustId, Status}).
 
-%% @doc Traverses the table and deletes all users whose status is set to `disabled'. 
+%% @doc Traverses the table and deletes all users whose status is set to `disabled'.
 
 %% @spec delete_disabled()-> ok | {error, timeout}
 
@@ -156,13 +156,13 @@ lookup_msisdn(PhoneNo) ->
     usr_db:lookup_msisdn(PhoneNo).
 
 %% @doc This function will check if a user exists and has an enabled status. If so, it
-%%  will traverse the list of services to determine if the subscriber is allowed to use 
-%% this Service in a particular request. This is a variant of the lookup_msisdn/1 
+%%  will traverse the list of services to determine if the subscriber is allowed to use
+%% this Service in a particular request. This is a variant of the lookup_msisdn/1
 %% function, where logical checks are done in this module.
 
 %% @spec service_flag(integer(), service()) -> bool() | {error, instance | disabled}
 
--spec(service_flag(integer(), service()) -> bool() | {error, instance | disabled}). 
+-spec(service_flag(integer(), service()) -> bool() | {error, instance | disabled}).
 
 service_flag(PhoneNo, Service) ->
     case usr_db:lookup_msisdn(PhoneNo) of
@@ -178,9 +178,9 @@ service_flag(PhoneNo, Service) ->
 call(Request) ->
     Ref = make_ref(),
     ?MODULE! {request, {self(), Ref}, Request},
-    receive 
-	{reply, Ref, Reply} -> Reply 
-    after 
+    receive
+	{reply, Ref, Reply} -> Reply
+    after
 	?TIMEOUT -> {error, timeout}
     end.
 
@@ -207,8 +207,8 @@ loop() ->
 
 
 request({add_usr, PhoneNo, CustId, Plan}) ->
-    usr_db:add_usr(#usr{msisdn=PhoneNo, 
-			   id=CustId, 
+    usr_db:add_usr(#usr{msisdn=PhoneNo,
+			   id=CustId,
 			   plan=Plan});
 
 request({delete_usr, CustId}) ->

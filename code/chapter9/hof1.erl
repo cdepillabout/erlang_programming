@@ -1,4 +1,4 @@
-%% Code from 
+%% Code from
 %%   Erlang Programming
 %%   Francecso Cesarini and Simon Thompson
 %%   O'Reilly, 2008
@@ -51,7 +51,7 @@ evens([X|Xs]) ->
 palin(X) ->
    X == reverse(X).
 
-palins([]) -> 
+palins([]) ->
      [];
 palins([X|Xs]) ->
      case palin(X) of
@@ -64,7 +64,7 @@ palins([X|Xs]) ->
 palins2(Xs) ->
     filter( fun(X) -> X == reverse(X) end, Xs).
 
-filter(P,[]) -> 
+filter(P,[]) ->
     [];
 filter(P,[X|Xs]) ->
     case P(X) of
@@ -107,5 +107,5 @@ double3(Xs) ->
 
 sendTo(Pid) ->
     fun (X) ->
-	     Pid ! X 
+	     Pid ! X
     end.
