@@ -8,4 +8,9 @@
 
 -module(dist).
 -export([t/1]).
-t(From) -> From ! node().
+
+t(From) ->
+  io:format("This message is being printed from pid (~w) on node (~w).~n",
+            [self(), node()]),
+  io:format("Sending message to: ~w~n", [From]),
+  From ! {hello, node()}.
